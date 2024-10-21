@@ -4,8 +4,7 @@ import { createSignal } from 'solid-js';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Calendar as FullCalendar } from '@fullcalendar/core';
-import '@fullcalendar/core/main.css';
-import '@fullcalendar/daygrid/main.css';
+import '@fullcalendar/daygrid/index.css';
 
 function Calendar(props) {
   let calendarEl;

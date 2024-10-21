@@ -21,7 +21,8 @@
     "@fullcalendar/interaction": "^5.11.5",
     "@fullcalendar/common": "^5.11.5",
     "date-fns": "^2.30.0",
-    "@supabase/supabase-js": "^2.9.2"
+    "@supabase/supabase-js": "^2.9.2",
+    "@solidjs/router": "^0.8.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

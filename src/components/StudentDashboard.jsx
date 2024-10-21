@@ -6,7 +6,6 @@ import InitialSetup from './InitialSetup';
 
 function StudentDashboard(props) {
   const [profile, setProfile] = createSignal({});
-  const [subjects, setSubjects] = createSignal([]);
   const [timetable, setTimetable] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [currentStep, setCurrentStep] = createSignal('initialSetup');
@@ -33,6 +32,7 @@ function StudentDashboard(props) {
 
   const completeSetup = async (subjectData, availabilityData) => {
     setLoading(true);
+
     // Save subjects
     const subjectsWithStudentId = subjectData.map((subject) => ({ ...subject, student_id: props.user().id }));
     const { data: subjectRes, error: subjectError } = await supabase.from('subjects').insert(subjectsWithStudentId);

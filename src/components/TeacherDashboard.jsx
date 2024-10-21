@@ -16,7 +16,7 @@ function TeacherDashboard(props) {
       const studentIds = Array.from(new Set(data.map((item) => item.student_id)));
       const { data: studentProfiles, error: profilesError } = await supabase
         .from('profiles')
-        .select('email')
+        .select('id, email')
         .in('id', studentIds);
 
       if (studentProfiles) {

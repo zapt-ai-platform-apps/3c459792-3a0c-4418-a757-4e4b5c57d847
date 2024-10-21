@@ -9,6 +9,7 @@ function App() {
   const [user, setUser] = createSignal(null);
   const [role, setRole] = createSignal(null);
   const [currentPage, setCurrentPage] = createSignal('login');
+  const [selectRoleLoading, setSelectRoleLoading] = createSignal(false);
 
   const checkUserSignedIn = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -33,9 +34,9 @@ function App() {
     }
   };
 
-  onMount(checkUserSignedIn);
+  onMount(() => {
+    checkUserSignedIn();
 
-  createEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_, session) => {
       if (session?.user) {
         setUser(session.user);
@@ -47,7 +48,7 @@ function App() {
     });
 
     return () => {
-      authListener?.unsubscribe();
+      authListener?.subscription?.unsubscribe();
     };
   });
 
@@ -57,8 +58,6 @@ function App() {
     setRole(null);
     setCurrentPage('login');
   };
-
-  const [selectRoleLoading, setSelectRoleLoading] = createSignal(false);
 
   const selectRole = async (selectedRole) => {
     if (selectRoleLoading()) return;

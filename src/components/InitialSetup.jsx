@@ -35,7 +35,7 @@ function InitialSetup(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (props.loading) return;
+    if (props.loading()) return;
     props.onComplete(exams(), { availability: availability(), sessionDuration: sessionDuration(), startDate: startDate() });
   };
 
@@ -145,11 +145,11 @@ function InitialSetup(props) {
       <button
         type="submit"
         class={`w-full px-4 py-2 mt-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600 cursor-pointer ${
-          props.loading ? 'opacity-50 cursor-not-allowed' : ''
+          props.loading() ? 'opacity-50 cursor-not-allowed' : ''
         }`}
-        disabled={props.loading}
+        disabled={props.loading()}
       >
-        {props.loading ? 'Setting Up...' : 'Complete Setup'}
+        {props.loading() ? 'Setting Up...' : 'Complete Setup'}
       </button>
     </form>
   );

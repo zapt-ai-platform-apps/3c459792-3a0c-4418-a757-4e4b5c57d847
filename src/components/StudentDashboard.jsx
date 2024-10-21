@@ -1,8 +1,8 @@
-import { createSignal, onMount, createEffect, Show } from 'solid-js';
+import { createSignal, onMount, Show } from 'solid-js';
 import { supabase } from '../supabaseClient';
-import { createEvent } from '../supabaseClient';
 import { generateTimetable } from '../utils/timetableGenerator';
 import Calendar from './Calendar';
+import InitialSetup from './InitialSetup';
 
 function StudentDashboard(props) {
   const [profile, setProfile] = createSignal({});
@@ -12,7 +12,7 @@ function StudentDashboard(props) {
   const [currentStep, setCurrentStep] = createSignal('initialSetup');
 
   const fetchProfile = async () => {
-    let { data, error } = await supabase.from('profiles').select('*').eq('id', props.user.id).single();
+    let { data, error } = await supabase.from('profiles').select('*').eq('id', props.user().id).single();
     if (data) {
       setProfile(data);
       if (data.setup_complete) {
@@ -23,7 +23,7 @@ function StudentDashboard(props) {
   };
 
   const fetchTimetable = async () => {
-    let { data, error } = await supabase.from('timetable').select('*').eq('student_id', props.user.id);
+    let { data, error } = await supabase.from('timetable').select('*').eq('student_id', props.user().id);
     if (data) {
       setTimetable(data);
     }
@@ -34,7 +34,8 @@ function StudentDashboard(props) {
   const completeSetup = async (subjectData, availabilityData) => {
     setLoading(true);
     // Save subjects
-    const { data: subjectRes, error: subjectError } = await supabase.from('subjects').insert(subjectData);
+    const subjectsWithStudentId = subjectData.map((subject) => ({ ...subject, student_id: props.user().id }));
+    const { data: subjectRes, error: subjectError } = await supabase.from('subjects').insert(subjectsWithStudentId);
     if (subjectError) {
       console.error('Error saving subjects:', subjectError);
       setLoading(false);
@@ -45,7 +46,7 @@ function StudentDashboard(props) {
     const { error: profileError } = await supabase
       .from('profiles')
       .update({ setup_complete: true, availability: availabilityData })
-      .eq('id', props.user.id);
+      .eq('id', props.user().id);
 
     if (profileError) {
       console.error('Error updating profile:', profileError);
@@ -54,7 +55,7 @@ function StudentDashboard(props) {
     }
 
     // Generate timetable
-    const generatedTimetable = generateTimetable(subjectData, availabilityData);
+    const generatedTimetable = generateTimetable(subjectsWithStudentId, availabilityData);
     const { error: timetableError } = await supabase.from('timetable').insert(generatedTimetable);
 
     if (timetableError) {
@@ -71,7 +72,7 @@ function StudentDashboard(props) {
   return (
     <div class="h-full">
       <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-bold text-purple-600">Welcome, {props.user.email}</h1>
+        <h1 class="text-2xl font-bold text-purple-600">Welcome, {props.user().email}</h1>
         <button
           class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-full shadow-md focus:outline-none cursor-pointer"
           onClick={props.onSignOut}
@@ -80,12 +81,10 @@ function StudentDashboard(props) {
         </button>
       </div>
       <Show when={currentStep() === 'initialSetup'}>
-        {/* Render Initial Setup Component */}
-        <InitialSetup onComplete={completeSetup} loading={loading()} />
+        <InitialSetup onComplete={completeSetup} loading={loading} />
       </Show>
       <Show when={currentStep() === 'dashboard'}>
-        {/* Render Dashboard */}
-        <Calendar events={timetable()} />
+        <Calendar events={timetable} />
       </Show>
     </div>
   );

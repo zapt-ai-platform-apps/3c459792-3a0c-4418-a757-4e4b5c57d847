@@ -1,4 +1,4 @@
-import { onMount, createSignal } from 'solid-js';
+import { onMount, createSignal, onCleanup, createEffect } from 'solid-js';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Calendar as FullCalendar } from '@fullcalendar/core';
@@ -7,20 +7,32 @@ import '@fullcalendar/daygrid/main.css';
 
 function Calendar(props) {
   let calendarEl;
-  const [calendar, setCalendar] = createSignal(null);
+  let calendar;
 
   onMount(() => {
-    const cal = new FullCalendar(calendarEl, {
+    calendar = new FullCalendar(calendarEl, {
       plugins: [dayGridPlugin, interactionPlugin],
       initialView: 'dayGridMonth',
-      events: props.events,
+      events: props.events(),
       editable: true,
       selectable: true,
       eventDrop: props.onEventChange,
       eventClick: props.onEventClick,
     });
-    cal.render();
-    setCalendar(cal);
+    calendar.render();
+  });
+
+  createEffect(() => {
+    if (calendar) {
+      calendar.removeAllEventSources();
+      calendar.addEventSource(props.events());
+    }
+  });
+
+  onCleanup(() => {
+    if (calendar) {
+      calendar.destroy();
+    }
   });
 
   return <div ref={(el) => (calendarEl = el)} class="h-full"></div>;

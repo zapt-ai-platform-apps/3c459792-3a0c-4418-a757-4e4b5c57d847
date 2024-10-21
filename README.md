@@ -15,7 +15,7 @@ Upgrade is a free app designed to help students prepare for their school examina
 2. **Role Selection**
 
    - Upon first login, the student selects **"I am a Student"**.
-   - The selection takes them to the initial setup.
+   - This takes them to the initial setup process.
 
 3. **Initial Setup**
 
@@ -24,6 +24,7 @@ Upgrade is a free app designed to help students prepare for their school examina
      - **Add Exams:**
        - Enter subjects, exam dates, exam boards, and associate each subject with a teacher's email.
        - Rate their confidence level in each subject from 1 (Low) to 3 (High).
+
      - **Set Availability:**
        - Choose preferred revision times for each day (morning, afternoon, evening).
        - Specify session duration (minimum 30 minutes, maximum 2 hours).
@@ -58,7 +59,7 @@ Upgrade is a free app designed to help students prepare for their school examina
 2. **Role Selection**
 
    - Upon first login, the teacher selects **"I am a Teacher"**.
-   - The selection takes them to their dashboard.
+   - This takes them to their dashboard.
 
 3. **Dashboard Access**
 
@@ -69,11 +70,14 @@ Upgrade is a free app designed to help students prepare for their school examina
 
 **Features**
 
+- **Responsive Design:** The app fills the entire screen and adjusts seamlessly to different screen sizes.
 - **Flexible Calendar:** A user-friendly calendar that allows students to manage their revision schedule.
 - **Syllabus Integration:** Sessions include topics from the exam syllabus for comprehensive coverage.
 - **Weighted Scheduling:** Subjects with lower confidence levels receive more revision time.
 - **Smart Rescheduling:** The app intelligently reschedules missed sessions.
 - **Teacher Monitoring:** Teachers can support students by tracking their revision progress.
+- **Loading States:** Real-time feedback is provided during API calls for a smooth user experience.
+- **Prevent Double Clicks:** Buttons are disabled after a single click to prevent duplicate actions.
 
 **Getting Started**
 

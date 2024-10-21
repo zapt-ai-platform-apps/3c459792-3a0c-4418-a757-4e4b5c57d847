@@ -10,15 +10,17 @@ Upgrade is a free app designed to help students prepare for their school examina
 
 1. **Sign In**
 
-   - The student signs in using their school email address via the "Sign in with ZAPT" portal.
+   - The student signs in using their school email address via the **"Sign in with ZAPT"** portal.
 
 2. **Role Selection**
 
-   - Upon first login, the student selects "I am a Student".
+   - Upon first login, the student selects **"I am a Student"**.
+   - The selection takes them to the initial setup.
 
 3. **Initial Setup**
 
    - The student is prompted to:
+
      - **Add Exams:**
        - Enter subjects, exam dates, exam boards, and associate each subject with a teacher's email.
        - Rate their confidence level in each subject from 1 (Low) to 3 (High).
@@ -51,11 +53,12 @@ Upgrade is a free app designed to help students prepare for their school examina
 
 1. **Sign In**
 
-   - The teacher signs in using their school email address via the "Sign in with ZAPT" portal.
+   - The teacher signs in using their school email address via the **"Sign in with ZAPT"** portal.
 
 2. **Role Selection**
 
-   - Upon first login, the teacher selects "I am a Teacher".
+   - Upon first login, the teacher selects **"I am a Teacher"**.
+   - The selection takes them to their dashboard.
 
 3. **Dashboard Access**
 
@@ -75,12 +78,12 @@ Upgrade is a free app designed to help students prepare for their school examina
 **Getting Started**
 
 1. **Students:**
-   - Sign in via the "Sign in with ZAPT" option.
+   - Sign in via the **"Sign in with ZAPT"** option.
    - Complete the initial setup to generate your personalized timetable.
    - Start studying and interact with your calendar.
 
 2. **Teachers:**
-   - Sign in via the "Sign in with ZAPT" option.
+   - Sign in via the **"Sign in with ZAPT"** option.
    - Access your dashboard to monitor student progress.
 
 **Support**

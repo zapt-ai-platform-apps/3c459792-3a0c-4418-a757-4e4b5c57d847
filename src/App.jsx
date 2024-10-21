@@ -112,33 +112,31 @@ function App() {
               </Show>
             }
           >
-            <Show when={user()} fallback={<div class="flex items-center justify-center min-h-screen"><p>Loading...</p></div>}>
-              <div class="flex items-center justify-center min-h-screen">
-                <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
-                  <h2 class="text-2xl font-bold mb-6 text-center text-purple-600">Select Your Role</h2>
-                  <div class="space-y-4">
-                    <button
-                      class={`w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 ${
-                        selectRoleLoading() ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-                      }`}
-                      onClick={() => selectRole('student')}
-                      disabled={selectRoleLoading()}
-                    >
-                      I am a Student
-                    </button>
-                    <button
-                      class={`w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 ${
-                        selectRoleLoading() ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
-                      }`}
-                      onClick={() => selectRole('teacher')}
-                      disabled={selectRoleLoading()}
-                    >
-                      I am a Teacher
-                    </button>
-                  </div>
+            <div class="flex items-center justify-center min-h-screen">
+              <div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold mb-6 text-center text-purple-600">Select Your Role</h2>
+                <div class="space-y-4">
+                  <button
+                    class={`w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer ${
+                      selectRoleLoading() ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    onClick={() => selectRole('student')}
+                    disabled={selectRoleLoading()}
+                  >
+                    {selectRoleLoading() ? 'Loading...' : 'I am a Student'}
+                  </button>
+                  <button
+                    class={`w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer ${
+                      selectRoleLoading() ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    onClick={() => selectRole('teacher')}
+                    disabled={selectRoleLoading()}
+                  >
+                    {selectRoleLoading() ? 'Loading...' : 'I am a Teacher'}
+                  </button>
                 </div>
               </div>
-            </Show>
+            </div>
           </Show>
         }
       >

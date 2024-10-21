@@ -3,7 +3,6 @@ import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { profiles, subjects, timetable } from '../drizzle/schema.js';
 import { generateTimetable } from '../src/utils/timetableGenerator.js';
-import { sql } from 'drizzle-orm';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

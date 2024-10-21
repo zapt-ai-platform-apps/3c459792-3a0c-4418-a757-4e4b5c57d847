@@ -1,5 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-import { supabase } from '../src/supabaseClient.js';
+import jwt from 'jsonwebtoken';
 
 export async function authenticateUser(req) {
   const authHeader = req.headers.authorization;
@@ -8,11 +7,15 @@ export async function authenticateUser(req) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
 
-  if (error || !user) {
+  try {
+    const decodedToken = jwt.verify(token, process.env.SUPABASE_JWT_SECRET);
+    const user = {
+      id: decodedToken.sub,
+      email: decodedToken.email,
+    };
+    return user;
+  } catch (error) {
     throw new Error('Invalid token');
   }
-
-  return user;
 }

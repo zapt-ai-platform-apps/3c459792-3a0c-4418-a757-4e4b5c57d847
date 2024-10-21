@@ -146,7 +146,6 @@ function App() {
               magicLink={true}
               showLinks={false}
               view="magic_link"
-              redirectTo={window.location.origin}
             />
           </div>
         </div>

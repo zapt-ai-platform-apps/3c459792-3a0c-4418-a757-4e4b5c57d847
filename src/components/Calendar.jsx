@@ -1,10 +1,9 @@
-import { onMount } from 'solid-js';
-import { createEvent } from '../supabaseClient';
-import { createSignal } from 'solid-js';
+import { onMount, createSignal } from 'solid-js';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Calendar as FullCalendar } from '@fullcalendar/core';
-import '@fullcalendar/daygrid/index.css';
+import '@fullcalendar/common/main.css';
+import '@fullcalendar/daygrid/main.css';
 
 function Calendar(props) {
   let calendarEl;

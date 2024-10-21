@@ -7,29 +7,34 @@ import TeacherDashboard from './components/TeacherDashboard';
 
 function App() {
   const [user, setUser] = createSignal(null);
+  const [accessToken, setAccessToken] = createSignal(null);
   const [role, setRole] = createSignal(null);
   const [currentPage, setCurrentPage] = createSignal('login');
 
   const checkUserSignedIn = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      setUser(user);
-      await fetchUserRole(user);
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      setUser(session.user);
+      setAccessToken(session.access_token);
+      await fetchUserRole(session.access_token);
     }
   };
 
-  const fetchUserRole = async (user) => {
-    let { data, error } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
+  const fetchUserRole = async (token) => {
+    const response = await fetch('/api/getUserRole', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
 
-    if (data) {
+    if (response.ok) {
+      const data = await response.json();
       setRole(data.role);
       setCurrentPage(data.role === 'student' ? 'studentDashboard' : 'teacherDashboard');
-    } else {
+    } else if (response.status === 404) {
       setCurrentPage('selectRole');
+    } else {
+      console.error('Error fetching user role');
     }
   };
 
@@ -39,9 +44,11 @@ function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_, session) => {
       if (session?.user) {
         setUser(session.user);
-        await fetchUserRole(session.user);
+        setAccessToken(session.access_token);
+        await fetchUserRole(session.access_token);
       } else {
         setUser(null);
+        setAccessToken(null);
         setCurrentPage('login');
       }
     });
@@ -54,6 +61,7 @@ function App() {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     setUser(null);
+    setAccessToken(null);
     setRole(null);
     setCurrentPage('login');
   };
@@ -64,31 +72,26 @@ function App() {
     if (selectRoleLoading()) return;
     setSelectRoleLoading(true);
 
-    let currentUser = user();
-    if (!currentUser) {
-      const { data: { user: fetchedUser }, error: userError } = await supabase.auth.getUser();
-      if (userError || !fetchedUser) {
-        console.error('Error fetching user:', userError);
-        setSelectRoleLoading(false);
-        return;
+    try {
+      const response = await fetch('/api/setUserRole', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken()}`,
+        },
+        body: JSON.stringify({ role: selectedRole }),
+      });
+
+      if (response.ok) {
+        setRole(selectedRole);
+        setCurrentPage(selectedRole === 'student' ? 'studentDashboard' : 'teacherDashboard');
+      } else {
+        console.error('Error setting role');
       }
-      currentUser = fetchedUser;
-    }
-
-    const { error } = await supabase.from('profiles').upsert({
-      id: currentUser.id,
-      email: currentUser.email,
-      role: selectedRole
-    });
-
-    setSelectRoleLoading(false);
-
-    if (!error) {
-      setUser(currentUser);
-      setRole(selectedRole);
-      setCurrentPage(selectedRole === 'student' ? 'studentDashboard' : 'teacherDashboard');
-    } else {
+    } catch (error) {
       console.error('Error setting role:', error);
+    } finally {
+      setSelectRoleLoading(false);
     }
   };
 
@@ -104,11 +107,11 @@ function App() {
                 when={currentPage() === 'studentDashboard'}
                 fallback={
                   <Show when={currentPage() === 'teacherDashboard'}>
-                    <TeacherDashboard user={user} onSignOut={handleSignOut} />
+                    <TeacherDashboard user={user} onSignOut={handleSignOut} accessToken={accessToken} />
                   </Show>
                 }
               >
-                <StudentDashboard user={user} onSignOut={handleSignOut} />
+                <StudentDashboard user={user} onSignOut={handleSignOut} accessToken={accessToken} />
               </Show>
             }
           >

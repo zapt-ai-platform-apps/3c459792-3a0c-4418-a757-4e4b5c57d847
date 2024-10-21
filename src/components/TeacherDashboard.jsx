@@ -1,5 +1,4 @@
 import { createSignal, onMount, Show, For } from 'solid-js';
-import { supabase } from '../supabaseClient';
 
 function TeacherDashboard(props) {
   const [students, setStudents] = createSignal([]);
@@ -7,23 +6,24 @@ function TeacherDashboard(props) {
 
   const fetchStudents = async () => {
     setLoading(true);
-    let { data, error } = await supabase
-      .from('subjects')
-      .select('student_id')
-      .eq('teacher_email', props.user().email);
+    try {
+      const response = await fetch('/api/getStudents', {
+        headers: {
+          'Authorization': `Bearer ${props.accessToken()}`,
+        },
+      });
 
-    if (data) {
-      const studentIds = Array.from(new Set(data.map((item) => item.student_id)));
-      const { data: studentProfiles, error: profilesError } = await supabase
-        .from('profiles')
-        .select('id, email')
-        .in('id', studentIds);
-
-      if (studentProfiles) {
-        setStudents(studentProfiles);
+      if (response.ok) {
+        const data = await response.json();
+        setStudents(data);
+      } else {
+        console.error('Error fetching students');
       }
+    } catch (error) {
+      console.error('Error fetching students:', error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   onMount(fetchStudents);

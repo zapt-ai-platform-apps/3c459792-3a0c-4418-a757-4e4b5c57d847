@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 
 function InitialSetup(props) {
   const [exams, setExams] = createSignal([{ subject: '', exam_date: '', exam_board: '', teacher_email: '', confidence_level: 2 }]);
@@ -35,59 +35,62 @@ function InitialSetup(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (props.loading) return;
     props.onComplete(exams(), { availability: availability(), sessionDuration: sessionDuration(), startDate: startDate() });
   };
 
   return (
     <form onSubmit={handleSubmit} class="space-y-4">
       <h2 class="text-xl font-bold mb-2 text-purple-600">Enter Your Exams</h2>
-      {exams().map((exam, index) => (
-        <div class="space-y-2 bg-white p-4 rounded-lg shadow-md" key={index}>
-          <input
-            type="text"
-            placeholder="Subject"
-            value={exam.subject}
-            onInput={(e) => updateExam(index, 'subject', e.target.value)}
-            class="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
-          <input
-            type="date"
-            value={exam.exam_date}
-            onInput={(e) => updateExam(index, 'exam_date', e.target.value)}
-            class="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Exam Board"
-            value={exam.exam_board}
-            onInput={(e) => updateExam(index, 'exam_board', e.target.value)}
-            class="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Teacher Email"
-            value={exam.teacher_email}
-            onInput={(e) => updateExam(index, 'teacher_email', e.target.value)}
-            class="w-full p-2 border border-gray-300 rounded-lg"
-            required
-          />
-          <label class="block">
-            Confidence Level:
-            <select
-              value={exam.confidence_level}
-              onChange={(e) => updateExam(index, 'confidence_level', Number(e.target.value))}
-              class="w-full p-2 border border-gray-300 rounded-lg"
-            >
-              <option value={1}>1 - Low</option>
-              <option value={2}>2 - Medium</option>
-              <option value={3}>3 - High</option>
-            </select>
-          </label>
-        </div>
-      ))}
+      <For each={exams()}>
+        {(exam, index) => (
+          <div class="space-y-2 bg-white p-4 rounded-lg shadow-md">
+            <input
+              type="text"
+              placeholder="Subject"
+              value={exam.subject}
+              onInput={(e) => updateExam(index(), 'subject', e.target.value)}
+              class="w-full p-2 border border-gray-300 rounded-lg box-border"
+              required
+            />
+            <input
+              type="date"
+              value={exam.exam_date}
+              onInput={(e) => updateExam(index(), 'exam_date', e.target.value)}
+              class="w-full p-2 border border-gray-300 rounded-lg box-border"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Exam Board"
+              value={exam.exam_board}
+              onInput={(e) => updateExam(index(), 'exam_board', e.target.value)}
+              class="w-full p-2 border border-gray-300 rounded-lg box-border"
+              required
+            />
+            <input
+              type="email"
+              placeholder="Teacher Email"
+              value={exam.teacher_email}
+              onInput={(e) => updateExam(index(), 'teacher_email', e.target.value)}
+              class="w-full p-2 border border-gray-300 rounded-lg box-border"
+              required
+            />
+            <label class="block">
+              Confidence Level:
+              <select
+                value={exam.confidence_level}
+                onChange={(e) => updateExam(index(), 'confidence_level', Number(e.target.value))}
+                class="w-full p-2 border border-gray-300 rounded-lg box-border"
+              >
+                <option value={1}>1 - Low</option>
+                <option value={2}>2 - Medium</option>
+                <option value={3}>3 - High</option>
+              </select>
+            </label>
+          </div>
+        )}
+      </For>
       <button
         type="button"
         onClick={addExam}
@@ -97,22 +100,26 @@ function InitialSetup(props) {
       </button>
       <h2 class="text-xl font-bold mt-6 mb-2 text-purple-600">Set Your Availability</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].map((day) => (
-          <div key={day} class="bg-white p-4 rounded-lg shadow-md">
-            <h3 class="font-bold capitalize mb-2">{day}</h3>
-            {['morning', 'afternoon', 'evening'].map((session) => (
-              <label key={session} class="block">
-                <input
-                  type="checkbox"
-                  checked={availability()[day].includes(session)}
-                  onChange={() => toggleAvailability(day, session)}
-                  class="mr-2"
-                />
-                {session.charAt(0).toUpperCase() + session.slice(1)}
-              </label>
-            ))}
-          </div>
-        ))}
+        <For each={['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']}>
+          {(day) => (
+            <div class="bg-white p-4 rounded-lg shadow-md">
+              <h3 class="font-bold capitalize mb-2">{day}</h3>
+              <For each={['morning', 'afternoon', 'evening']}>
+                {(session) => (
+                  <label class="block">
+                    <input
+                      type="checkbox"
+                      checked={availability()[day].includes(session)}
+                      onChange={() => toggleAvailability(day, session)}
+                      class="mr-2 cursor-pointer"
+                    />
+                    {session.charAt(0).toUpperCase() + session.slice(1)}
+                  </label>
+                )}
+              </For>
+            </div>
+          )}
+        </For>
       </div>
       <label class="block mt-4">
         Session Duration (minutes):
@@ -122,7 +129,7 @@ function InitialSetup(props) {
           max="120"
           value={sessionDuration()}
           onInput={(e) => setSessionDuration(Number(e.target.value))}
-          class="w-full p-2 border border-gray-300 rounded-lg"
+          class="w-full p-2 border border-gray-300 rounded-lg box-border"
           required
         />
       </label>
@@ -132,7 +139,7 @@ function InitialSetup(props) {
           type="date"
           value={startDate()}
           onInput={(e) => setStartDate(e.target.value)}
-          class="w-full p-2 border border-gray-300 rounded-lg"
+          class="w-full p-2 border border-gray-300 rounded-lg box-border"
         />
       </label>
       <button

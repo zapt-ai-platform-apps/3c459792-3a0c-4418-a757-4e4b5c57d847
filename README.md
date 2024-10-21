@@ -1,73 +1,88 @@
-# Upgrade - Student Revision Timetable App
+# Upgrade - Personalized Revision Timetable App
 
 **Overview**
 
-Upgrade is an app designed to help students prepare for their school examinations by creating a personalized revision timetable. The app schedules study sessions based on the student's exam schedule, availability, and confidence levels in each subject. Teachers can also use the app to monitor their students' progress.
+Upgrade is a free app designed to help students prepare for their school examinations by creating a personalized revision timetable. The app schedules study sessions based on the student's exam schedule, availability, and confidence levels in each subject. Teachers can also use the app to monitor their students' progress.
 
 **User Journeys**
 
 ### Student Journey
 
-1. **Account Creation**
-   - The student registers an account using their school email address and sets a password.
+1. **Sign In**
 
-2. **Initial Setup**
-   - Upon first login, the student is prompted to:
-     - **Select Exams:** Choose the exams they will be sitting, including exam dates, subjects, and examination boards.
-     - **Assign Teachers:** Link each subject to the corresponding teacher.
-     - **Confidence Rating:** Rank their confidence in each subject on a scale from 1 (low) to 3 (high).
+   - The student signs in using their school email address via the "Sign in with ZAPT" portal.
 
-3. **Availability Settings**
-   - The student selects their preferred revision times by choosing morning, afternoon, or both for each day of the week.
-   - They specify the duration of each revision session (minimum 30 minutes, maximum 2 hours).
-   - Optionally, they can set a start date for the revision schedule.
+2. **Role Selection**
+
+   - Upon first login, the student selects "I am a Student".
+
+3. **Initial Setup**
+
+   - The student is prompted to:
+     - **Add Exams:**
+       - Enter subjects, exam dates, exam boards, and associate each subject with a teacher's email.
+       - Rate their confidence level in each subject from 1 (Low) to 3 (High).
+     - **Set Availability:**
+       - Choose preferred revision times for each day (morning, afternoon, evening).
+       - Specify session duration (minimum 30 minutes, maximum 2 hours).
+       - Optionally set a start date for the revision schedule.
 
 4. **Timetable Generation**
+
    - The app generates a personalized revision timetable:
-     - Sessions are scheduled between the current date (or delayed start date) and one week before the exam date.
+     - Sessions are scheduled between the current date (or start date) and one week before each exam.
      - Subjects are allocated sessions weighted by the student's confidence levels.
      - Each session is assigned specific content based on the exam syllabus.
 
-5. **Timetable Interaction**
+5. **Dashboard Interaction**
+
    - Students can:
+     - **View Calendar:** See upcoming revision sessions in a calendar view.
      - **Mark Sessions:** Mark sessions as complete or incomplete.
-     - **Reschedule Incomplete Sessions:** If marked incomplete, the app offers to reschedule the session. If no space is available, it suggests the next best time.
+     - **Reschedule Sessions:** If a session is incomplete, the app offers to reschedule it.
      - **Edit Sessions:** Modify the subject or length of a session.
      - **Drag and Drop:** Rearrange sessions within the calendar.
 
 6. **Progress Tracking**
-   - Students can view their progress and see which sessions are upcoming, completed, or need rescheduling.
+
+   - Students can monitor their progress and adjust their study plans accordingly.
 
 ### Teacher Journey
 
-1. **Account Creation**
-   - The teacher registers an account using their school email address and sets a password.
+1. **Sign In**
 
-2. **Student Monitoring**
-   - Upon login, teachers can:
-     - **View Class List:** See a list of students assigned to them.
-     - **Track Progress:** View each student's revision progress for their subject.
-     - **Session Details:** See which sessions have been completed or are pending.
+   - The teacher signs in using their school email address via the "Sign in with ZAPT" portal.
 
-**Key Features**
+2. **Role Selection**
 
-- **Flexible Calendar:** A fully customizable calendar that allows students to adjust their revision schedule as needed.
-- **Syllabus Integration:** Revision sessions are populated with topics from the exam syllabus, ensuring comprehensive coverage.
-- **Weighted Scheduling:** Subjects are scheduled based on the student's confidence levels, focusing more on weaker subjects.
-- **Rescheduling Mechanism:** Smart rescheduling for incomplete sessions, optimizing the timetable for maximum efficiency.
-- **Teacher Access:** Teachers can monitor student progress, helping them provide targeted support.
+   - Upon first login, the teacher selects "I am a Teacher".
+
+3. **Dashboard Access**
+
+   - Teachers can:
+     - **View Student List:** See a list of students who have associated them as a teacher.
+     - **Monitor Progress:** Access each student's revision timetable for their subject.
+     - **Session Details:** View completed and pending sessions.
+
+**Features**
+
+- **Flexible Calendar:** A user-friendly calendar that allows students to manage their revision schedule.
+- **Syllabus Integration:** Sessions include topics from the exam syllabus for comprehensive coverage.
+- **Weighted Scheduling:** Subjects with lower confidence levels receive more revision time.
+- **Smart Rescheduling:** The app intelligently reschedules missed sessions.
+- **Teacher Monitoring:** Teachers can support students by tracking their revision progress.
 
 **Getting Started**
 
 1. **Students:**
-   - Register with your school email.
-   - Complete the initial setup to generate your personalized revision timetable.
-   - Start studying and mark your sessions accordingly.
+   - Sign in via the "Sign in with ZAPT" option.
+   - Complete the initial setup to generate your personalized timetable.
+   - Start studying and interact with your calendar.
 
 2. **Teachers:**
-   - Register with your school email.
-   - Access your classes and monitor student progress.
+   - Sign in via the "Sign in with ZAPT" option.
+   - Access your dashboard to monitor student progress.
 
-**Contact & Support**
+**Support**
 
-For any questions or support, please contact our team at [support@upgradeapp.com](mailto:support@upgradeapp.com).
+For assistance, please contact our support team at [support@upgradeapp.com](mailto:support@upgradeapp.com).

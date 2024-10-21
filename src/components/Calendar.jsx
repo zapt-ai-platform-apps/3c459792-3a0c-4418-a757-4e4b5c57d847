@@ -1,7 +1,7 @@
 import { onMount, createSignal, onCleanup, createEffect } from 'solid-js';
-import interactionPlugin from '@fullcalendar/interaction';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { Calendar as FullCalendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import '@fullcalendar/common/main.css';
 import '@fullcalendar/daygrid/main.css';
 
